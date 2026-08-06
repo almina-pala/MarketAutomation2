@@ -42,5 +42,9 @@ namespace MarketAutomation2.API.Models.Entities
 
         // Navigation Property
         public Category Category { get; set; } = null!;
+
+        public ICollection<SaleItem> SaleItems { get; set; } = new List<SaleItem>();
+
+        public ICollection<StockMovement> StockMovements { get; set; } = new List<StockMovement>();
     }
 }

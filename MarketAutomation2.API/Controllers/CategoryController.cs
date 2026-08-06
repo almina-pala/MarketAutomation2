@@ -1,7 +1,6 @@
-﻿using MarketAutomation.API.Data;
-using MarketAutomation2.API.Models.Entities;
+﻿using MarketAutomation2.API.DTOs.Categories;
+using MarketAutomation2.API.Services.Abstract;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 
 namespace MarketAutomation2.API.Controllers
 {
@@ -9,96 +8,68 @@ namespace MarketAutomation2.API.Controllers
     [ApiController]
     public class CategoryController : ControllerBase
     {
-        private readonly MarketDbContext _context;
+        private readonly ICategoryService _categoryService;
 
-        public CategoryController(MarketDbContext context)
+        public CategoryController(ICategoryService categoryService)
         {
-            _context = context;
+            _categoryService = categoryService;
         }
 
         // Tüm kategorileri getir
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Category>>> GetCategories()
+        public async Task<IActionResult> GetAll()
         {
-            return await _context.Categories
-                .OrderBy(c => c.Name)
-                .ToListAsync();
+            var categories = await _categoryService.GetAllAsync();
+            return Ok(categories);
         }
 
         // Id'ye göre kategori getir
         [HttpGet("{id}")]
-        public async Task<ActionResult<Category>> GetCategory(int id)
+        public async Task<IActionResult> GetById(int id)
         {
-            var category = await _context.Categories.FindAsync(id);
+            var category = await _categoryService.GetByIdAsync(id);
 
             if (category == null)
                 return NotFound("Kategori bulunamadı.");
 
-            return category;
+            return Ok(category);
         }
 
         // Yeni kategori ekle
         [HttpPost]
-        public async Task<ActionResult<Category>> CreateCategory(Category category)
+        public async Task<IActionResult> Create(CreateCategoryDto dto)
         {
-            if (string.IsNullOrWhiteSpace(category.Name))
-                return BadRequest("Kategori adı boş olamaz.");
-
-            bool exists = await _context.Categories
-                .AnyAsync(c => c.Name == category.Name);
-
-            if (exists)
-                return BadRequest("Bu kategori zaten mevcut.");
-
-            _context.Categories.Add(category);
-            await _context.SaveChangesAsync();
-
-            return CreatedAtAction(nameof(GetCategory),
-                new { id = category.Id }, category);
+            try
+            {
+                var category = await _categoryService.CreateAsync(dto);
+                return CreatedAtAction(nameof(GetById), new { id = category.Id }, category);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
         // Kategori güncelle
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateCategory(int id, Category category)
+        public async Task<IActionResult> Update(int id, UpdateCategoryDto dto)
         {
-            if (id != category.Id)
-                return BadRequest();
+            var result = await _categoryService.UpdateAsync(id, dto);
 
-            _context.Entry(category).State = EntityState.Modified;
-
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!await _context.Categories.AnyAsync(c => c.Id == id))
-                    return NotFound();
-
-                throw;
-            }
+            if (!result)
+                return NotFound("Kategori bulunamadı.");
 
             return NoContent();
         }
 
         // Kategori sil
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteCategory(int id)
+        public async Task<IActionResult> Delete(int id)
         {
-            var category = await _context.Categories.FindAsync(id);
+            var result = await _categoryService.DeleteAsync(id);
 
-            if (category == null)
-                return NotFound();
-
-            // Bu kategoriye bağlı ürün var mı?
-            bool hasProducts = await _context.Products
-                .AnyAsync(p => p.CategoryId == id);
-
-            if (hasProducts)
-                return BadRequest("Bu kategoriye ait ürünler bulunduğu için silinemez.");
-
-            _context.Categories.Remove(category);
-            await _context.SaveChangesAsync();
+            if (!result)
+                return NotFound("Kategori bulunamadı.");
 
             return NoContent();
         }

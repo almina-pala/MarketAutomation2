@@ -1,4 +1,4 @@
-﻿using MarketAutomation.API.Data;
+﻿using MarketAutomation2.API.Data;
 using MarketAutomation2.API.Repositories.Abstract;
 using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
@@ -46,9 +46,5 @@ namespace MarketAutomation2.API.Repositories.Concrete
             _dbSet.Remove(entity);
         }
 
-        public async Task SaveAsync()
-        {
-            await _context.SaveChangesAsync();
-        }
     }
 }

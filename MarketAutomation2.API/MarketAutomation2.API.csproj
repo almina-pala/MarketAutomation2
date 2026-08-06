@@ -28,8 +28,6 @@
 	  <Folder Include="Models\DTOs\" />
 	  <Folder Include="Models\ViewModels\" />
 	  <Folder Include="Data\" />
-	  <Folder Include="Services\Concrete\" />
-	  <Folder Include="Services\Abstract\" />
   </ItemGroup>
 
 </Project>

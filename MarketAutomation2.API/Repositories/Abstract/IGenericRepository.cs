@@ -16,6 +16,5 @@ namespace MarketAutomation2.API.Repositories.Abstract
 
         void Delete(T entity);
 
-        Task SaveAsync();
     }
 }
