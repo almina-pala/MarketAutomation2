@@ -12,5 +12,6 @@ namespace MarketAutomation2.API.Repositories.Abstract
         Task<Product?> GetByIdWithCategoryAsync(int id);
 
         Task<Product?> GetForSaleAsync(int id);
+        
     }
 }

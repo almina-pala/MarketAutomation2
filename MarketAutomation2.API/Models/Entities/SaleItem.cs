@@ -15,7 +15,7 @@ namespace MarketAutomation2.API.Models.Entities
         public Product Product { get; set; } = null!;
 
         [Required]
-        public int Quantity { get; set; }
+        public decimal Quantity { get; set; }
 
         [Required]
         public decimal UnitPrice { get; set; }

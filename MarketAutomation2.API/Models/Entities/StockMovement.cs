@@ -13,7 +13,7 @@ namespace MarketAutomation2.API.Models.Entities
         public DateTime MovementDate { get; set; } = DateTime.Now;
 
         [Required]
-        public int Quantity { get; set; }
+        public decimal Quantity { get; set; }
 
         [Required]
         [MaxLength(20)]

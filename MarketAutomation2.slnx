@@ -1,3 +1,4 @@
 <Solution>
   <Project Path="MarketAutomation2.API/MarketAutomation2.API.csproj" />
+  <Project Path="MarketAutomation2.Desktop/MarketAutomation2.Desktop.csproj" Id="d44c4c5f-56df-4f2f-b6bb-942e569f4b0c" />
 </Solution>

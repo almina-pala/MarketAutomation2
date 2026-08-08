@@ -14,9 +14,9 @@
 
         public decimal SalePrice { get; set; }
 
-        public int Stock { get; set; }
+        public decimal Stock { get; set; }
 
-        public int CriticalStock { get; set; }
+        public decimal CriticalStock { get; set; }
 
         public string Unit { get; set; } = string.Empty;
 

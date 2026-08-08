@@ -44,5 +44,7 @@ namespace MarketAutomation2.API.Repositories.Concrete
             return await _context.Products
                 .FirstOrDefaultAsync(x => x.Id == id && x.IsActive);
         }
+
+       
     }
 }

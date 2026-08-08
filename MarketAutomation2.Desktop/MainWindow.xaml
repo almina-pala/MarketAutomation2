@@ -1,0 +1,70 @@
+﻿<Window x:Class="MarketAutomation2.Desktop.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Market Automation"
+        Height="600"
+        Width="1000"
+        WindowStartupLocation="CenterScreen">
+
+    <Grid Background="#F5F5F5">
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="80"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <!-- Üst Menü -->
+        <Border Grid.Row="0"
+                Background="#1976D2">
+
+            <TextBlock Text="MARKET AUTOMATION"
+                       Foreground="White"
+                       FontSize="28"
+                       FontWeight="Bold"
+                       VerticalAlignment="Center"
+                       HorizontalAlignment="Center"/>
+
+        </Border>
+
+        <!-- Menü -->
+        <Grid Grid.Row="1"
+              Margin="40">
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <!-- Kasa -->
+            <Button Grid.Column="0"
+                    Margin="15"
+                    Height="180"
+                    FontSize="24"
+                    FontWeight="Bold"
+                    Content="KASA"
+                    Click="CashRegisterButton_Click"/>
+
+            <!-- Ürün Yönetimi -->
+            <Button Grid.Column="1"
+                    Margin="15"
+                    Height="180"
+                    FontSize="24"
+                    FontWeight="Bold"
+                    Content="ÜRÜN YÖNETİMİ"
+                    Click="ProductManagementButton_Click"/>
+
+            <!-- Çıkış -->
+            <Button Grid.Column="2"
+                    Margin="15"
+                    Height="180"
+                    FontSize="24"
+                    FontWeight="Bold"
+                    Content="ÇIKIŞ"
+                    Click="ExitButton_Click"/>
+
+        </Grid>
+
+    </Grid>
+
+</Window>

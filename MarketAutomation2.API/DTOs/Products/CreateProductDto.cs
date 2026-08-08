@@ -22,10 +22,10 @@ namespace MarketAutomation2.API.DTOs.Products
         public decimal SalePrice { get; set; }
 
         [Range(0, 999999)]
-        public int Stock { get; set; }
+        public decimal Stock { get; set; }
 
         [Range(0, 999999)]
-        public int CriticalStock { get; set; }
+        public decimal CriticalStock { get; set; }
 
         [Required]
         [MaxLength(20)]

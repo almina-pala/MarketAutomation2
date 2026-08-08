@@ -29,9 +29,9 @@ namespace MarketAutomation2.API.Models.Entities
         [Column(TypeName = "decimal(18,2)")]
         public decimal SalePrice { get; set; }
 
-        public int Stock { get; set; }
+        public decimal Stock { get; set; }
 
-        public int CriticalStock { get; set; } = 5;
+        public decimal CriticalStock { get; set; } = 5;
 
         public bool IsActive { get; set; } = true;
 

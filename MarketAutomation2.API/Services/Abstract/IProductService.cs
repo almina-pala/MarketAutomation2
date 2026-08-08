@@ -15,5 +15,7 @@ namespace MarketAutomation2.API.Services.Abstract
         Task<bool> UpdateAsync(int id, UpdateProductDto dto);
 
         Task<bool> DeleteAsync(int id);
+
+        
     }
 }
