@@ -4,6 +4,7 @@ using MarketAutomation2.Desktop.Api;
 using MarketAutomation2.Desktop.Models;
 using MarketAutomation2.Desktop.Views;
 using System.Collections.ObjectModel;
+using System.Net.Http;
 using System.Windows;
 
 namespace MarketAutomation2.Desktop.ViewModels
@@ -12,23 +13,13 @@ namespace MarketAutomation2.Desktop.ViewModels
     {
         private readonly ProductApiService _productApiService;
 
-        // =====================================================
-        // ÜRÜNLER
-        // =====================================================
-
-        public ObservableCollection<Product> Products { get; }
-            = new ObservableCollection<Product>();
-
-        // =====================================================
-        // ARAMA
-        // =====================================================
+        public ObservableCollection<Product> Products { get; } = new();
 
         [ObservableProperty]
         private string searchText = string.Empty;
 
-        // =====================================================
-        // KOMUTLAR
-        // =====================================================
+        [ObservableProperty]
+        private bool isLoading;
 
         public IAsyncRelayCommand LoadProductsCommand { get; }
 
@@ -40,40 +31,24 @@ namespace MarketAutomation2.Desktop.ViewModels
 
         public IAsyncRelayCommand<Product> DeleteCommand { get; }
 
-        // =====================================================
-        // CONSTRUCTOR
-        // =====================================================
-
         public ProductManagementViewModel()
         {
             _productApiService = new ProductApiService();
 
-            LoadProductsCommand =
-                new AsyncRelayCommand(LoadProductsAsync);
-
-            SearchCommand =
-                new AsyncRelayCommand(SearchProductsAsync);
-
-            NewProductCommand =
-                new RelayCommand(NewProduct);
-
-            EditCommand =
-                new RelayCommand<Product>(EditProduct);
-
-            DeleteCommand =
-                new AsyncRelayCommand<Product>(DeleteProductAsync);
+            LoadProductsCommand = new AsyncRelayCommand(LoadProductsAsync);
+            SearchCommand = new AsyncRelayCommand(SearchProductsAsync);
+            NewProductCommand = new RelayCommand(NewProduct);
+            EditCommand = new RelayCommand<Product>(EditProduct);
+            DeleteCommand = new AsyncRelayCommand<Product>(DeleteProductAsync);
         }
-
-        // =====================================================
-        // TÜM ÜRÜNLERİ GETİR
-        // =====================================================
 
         public async Task LoadProductsAsync()
         {
+            IsLoading = true;
+
             try
             {
-                var products =
-                    await _productApiService.GetAllProductsAsync();
+                var products = await _productApiService.GetAllProductsAsync();
 
                 Products.Clear();
 
@@ -82,19 +57,19 @@ namespace MarketAutomation2.Desktop.ViewModels
                     Products.Add(product);
                 }
             }
-            catch (Exception ex)
+            catch (HttpRequestException)
             {
-                MessageBox.Show(
-                    $"Ürünler yüklenirken hata oluştu.\n\n{ex.Message}",
-                    "Hata",
-                    MessageBoxButton.OK,
-                    MessageBoxImage.Error);
+                ShowError("Sunucuya bağlanılamadı. API'nin çalıştığından emin olun.");
+            }
+            catch (Exception)
+            {
+                ShowError("Ürünler yüklenirken bir hata oluştu.");
+            }
+            finally
+            {
+                IsLoading = false;
             }
         }
-
-        // =====================================================
-        // ÜRÜN ARAMA
-        // =====================================================
 
         private async Task SearchProductsAsync()
         {
@@ -104,38 +79,43 @@ namespace MarketAutomation2.Desktop.ViewModels
                 return;
             }
 
-            var allProducts =
-                await _productApiService.GetAllProductsAsync();
+            IsLoading = true;
 
-            var searchResult = allProducts
-                .Where(x =>
-                    x.Name.Contains(
-                        SearchText,
-                        StringComparison.OrdinalIgnoreCase)
-                    ||
-                    x.Barcode.Contains(
-                        SearchText,
-                        StringComparison.OrdinalIgnoreCase))
-                .ToList();
-
-            Products.Clear();
-
-            foreach (var product in searchResult)
+            try
             {
-                Products.Add(product);
+                var allProducts = await _productApiService.GetAllProductsAsync();
+
+                var searchResult = allProducts
+                    .Where(x =>
+                        x.Name.Contains(SearchText, StringComparison.OrdinalIgnoreCase)
+                        || x.Barcode.Contains(SearchText, StringComparison.OrdinalIgnoreCase))
+                    .ToList();
+
+                Products.Clear();
+
+                foreach (var product in searchResult)
+                {
+                    Products.Add(product);
+                }
+            }
+            catch (HttpRequestException)
+            {
+                ShowError("Sunucuya bağlanılamadı.");
+            }
+            catch (Exception)
+            {
+                ShowError("Arama sırasında bir hata oluştu.");
+            }
+            finally
+            {
+                IsLoading = false;
             }
         }
-
-        // =====================================================
-        // YENİ ÜRÜN
-        // =====================================================
 
         private void NewProduct()
         {
             var viewModel = new ProductEditViewModel();
-
             var window = new ProductEditWindow(viewModel);
-
             var result = window.ShowDialog();
 
             if (result == true)
@@ -143,22 +123,14 @@ namespace MarketAutomation2.Desktop.ViewModels
                 _ = LoadProductsAsync();
             }
         }
-
-        // =====================================================
-        // ÜRÜN DÜZENLE
-        // =====================================================
 
         private void EditProduct(Product? product)
         {
             if (product == null)
                 return;
 
-            var viewModel =
-                new ProductEditViewModel(product);
-
-            var window =
-                new ProductEditWindow(viewModel);
-
+            var viewModel = new ProductEditViewModel(product.Id);
+            var window = new ProductEditWindow(viewModel);
             var result = window.ShowDialog();
 
             if (result == true)
@@ -166,10 +138,6 @@ namespace MarketAutomation2.Desktop.ViewModels
                 _ = LoadProductsAsync();
             }
         }
-
-        // =====================================================
-        // ÜRÜN SİL
-        // =====================================================
 
         private async Task DeleteProductAsync(Product? product)
         {
@@ -187,18 +155,11 @@ namespace MarketAutomation2.Desktop.ViewModels
 
             try
             {
-                var success =
-                    await _productApiService
-                        .DeleteProductAsync(product.Id);
+                var success = await _productApiService.DeleteProductAsync(product.Id);
 
                 if (!success)
                 {
-                    MessageBox.Show(
-                        "Ürün silinemedi.",
-                        "Hata",
-                        MessageBoxButton.OK,
-                        MessageBoxImage.Error);
-
+                    ShowError("Ürün silinemedi.");
                     return;
                 }
 
@@ -210,14 +171,19 @@ namespace MarketAutomation2.Desktop.ViewModels
                     MessageBoxButton.OK,
                     MessageBoxImage.Information);
             }
-            catch (Exception ex)
+            catch (HttpRequestException)
             {
-                MessageBox.Show(
-                    $"Ürün silinirken hata oluştu.\n\n{ex.Message}",
-                    "Hata",
-                    MessageBoxButton.OK,
-                    MessageBoxImage.Error);
+                ShowError("Sunucuya bağlanılamadı.");
             }
+            catch (Exception)
+            {
+                ShowError("Ürün silinirken bir hata oluştu.");
+            }
+        }
+
+        private static void ShowError(string message)
+        {
+            MessageBox.Show(message, "Hata", MessageBoxButton.OK, MessageBoxImage.Error);
         }
     }
 }

@@ -22,6 +22,24 @@ namespace MarketAutomation2.Desktop
             window.ShowDialog();
         }
 
+        private void ReportsButton_Click(object sender, RoutedEventArgs e)
+        {
+            MessageBox.Show(
+                "Raporlar modülü yakında eklenecek.",
+                "Raporlar",
+                MessageBoxButton.OK,
+                MessageBoxImage.Information);
+        }
+
+        private void SettingsButton_Click(object sender, RoutedEventArgs e)
+        {
+            MessageBox.Show(
+                "Ayarlar modülü yakında eklenecek.",
+                "Ayarlar",
+                MessageBoxButton.OK,
+                MessageBoxImage.Information);
+        }
+
         private void ExitButton_Click(object sender, RoutedEventArgs e)
         {
             Application.Current.Shutdown();

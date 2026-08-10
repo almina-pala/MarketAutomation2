@@ -1,4 +1,5 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
+using MarketAutomation2.Desktop.Helpers;
 
 namespace MarketAutomation2.Desktop.Models
 {
@@ -14,21 +15,44 @@ namespace MarketAutomation2.Desktop.Models
         private string name = string.Empty;
 
         [ObservableProperty]
+        private string unit = "Adet";
+
+        [ObservableProperty]
         private decimal unitPrice;
 
-        partial void OnUnitPriceChanged(decimal value)
-        {
-            OnPropertyChanged(nameof(TotalPrice));
-        }
+        [ObservableProperty]
+        private decimal availableStock;
 
         [ObservableProperty]
         private decimal quantity = 1;
 
-        partial void OnQuantityChanged(decimal value)
+        public decimal TotalPrice => UnitPrice * Quantity;
+
+        public string QuantityDisplay => QuantityHelper.FormatQuantity(Quantity, Unit);
+
+        public string UnitPriceDisplay => QuantityHelper.FormatUnitPrice(UnitPrice, Unit);
+
+        partial void OnUnitPriceChanged(decimal value)
         {
-            OnPropertyChanged(nameof(TotalPrice));
+            NotifyPriceChanged();
         }
 
-        public decimal TotalPrice => UnitPrice * Quantity;
+        partial void OnQuantityChanged(decimal value)
+        {
+            NotifyPriceChanged();
+        }
+
+        partial void OnUnitChanged(string value)
+        {
+            OnPropertyChanged(nameof(QuantityDisplay));
+            OnPropertyChanged(nameof(UnitPriceDisplay));
+        }
+
+        private void NotifyPriceChanged()
+        {
+            OnPropertyChanged(nameof(TotalPrice));
+            OnPropertyChanged(nameof(QuantityDisplay));
+            OnPropertyChanged(nameof(UnitPriceDisplay));
+        }
     }
 }
