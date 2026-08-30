@@ -3,6 +3,7 @@ using CommunityToolkit.Mvvm.Input;
 using MarketAutomation2.Desktop.Api;
 using MarketAutomation2.Desktop.Helpers;
 using MarketAutomation2.Desktop.Models;
+using MarketAutomation2.Desktop.Services;
 using System.Collections.ObjectModel;
 using System.Net.Http;
 using System.Windows;
@@ -15,6 +16,7 @@ namespace MarketAutomation2.Desktop.ViewModels
         private readonly ProductApiService _productApiService;
         private readonly SaleApiService _saleApiService;
         private readonly DispatcherTimer _clockTimer;
+        private readonly AppSettingsService _settingsService;
 
         public ObservableCollection<CartItem> Cart { get; } = new();
 
@@ -69,8 +71,12 @@ namespace MarketAutomation2.Desktop.ViewModels
 
         public CashRegisterViewModel()
         {
+            _settingsService = new AppSettingsService();
+
             _productApiService = new ProductApiService();
             _saleApiService = new SaleApiService();
+
+            LoadSettings();
 
             CompleteSaleCommand = new AsyncRelayCommand(CompleteSale);
             RemoveItemCommand = new RelayCommand<CartItem>(RemoveItem);
@@ -107,6 +113,19 @@ namespace MarketAutomation2.Desktop.ViewModels
             _clockTimer.Tick += (_, _) => UpdateDateTime();
             _clockTimer.Start();
             UpdateDateTime();
+        }
+
+        private void LoadSettings()
+        {
+            var settings = _settingsService.Load();
+
+            StoreName = string.IsNullOrWhiteSpace(settings.MarketName)
+                ? "Market Automation"
+                : settings.MarketName;
+
+            CashierName = string.IsNullOrWhiteSpace(settings.CashierName)
+                ? "Kasiyer"
+                : settings.CashierName;
         }
 
         partial void OnPaymentTypeChanged(string value)

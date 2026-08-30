@@ -31,7 +31,8 @@
                                    VerticalAlignment="Center"/>
                     </Border>
                     <StackPanel VerticalAlignment="Center">
-                        <TextBlock Text="MARKET AUTOMATION"
+                        <TextBlock x:Name="txtMarketName"
+                                   Text="MARKET AUTOMATION"
                                    FontSize="26"
                                    FontWeight="Bold"
                                    Foreground="White"/>
@@ -48,99 +49,166 @@
         <ScrollViewer Grid.Row="1"
                       VerticalScrollBarVisibility="Auto"
                       Padding="40,32">
-            <UniformGrid Columns="2"
-                         HorizontalAlignment="Center"
-                         MaxWidth="800">
+            <Grid HorizontalAlignment="Center"
+      MaxWidth="900">
 
-                <!-- Kasa -->
-                <Button Margin="12"
-                        Height="160"
-                        Style="{StaticResource MenuTileButton}"
-                        Click="CashRegisterButton_Click">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+
+                <!-- KASA -->
+                <Button Grid.Row="0"
+            Grid.Column="0"
+            Margin="12"
+            Height="180"
+            Style="{StaticResource MenuTileButton}"
+            Click="CashRegisterButton_Click">
+
                     <StackPanel>
                         <TextBlock Text="🛒"
-                                   FontSize="40"
-                                   HorizontalAlignment="Center"
-                                   Margin="0,0,0,12"/>
+                       FontSize="40"
+                       HorizontalAlignment="Center"
+                       Margin="0,0,0,12"/>
+
                         <TextBlock Text="KASA"
-                                   FontSize="22"
-                                   FontWeight="Bold"
-                                   HorizontalAlignment="Center"/>
+                       FontSize="22"
+                       FontWeight="Bold"
+                       HorizontalAlignment="Center"/>
+
                         <TextBlock Text="Satış ve ödeme işlemleri"
-                                   FontSize="13"
-                                   Foreground="{StaticResource TextSecondaryBrush}"
-                                   HorizontalAlignment="Center"
-                                   Margin="0,6,0,0"/>
+                       FontSize="13"
+                       Foreground="{StaticResource TextSecondaryBrush}"
+                       HorizontalAlignment="Center"
+                       Margin="0,6,0,0"/>
                     </StackPanel>
+
                 </Button>
 
-                <!-- Ürün Yönetimi -->
-                <Button Margin="12"
-                        Height="160"
-                        Style="{StaticResource MenuTileButton}"
-                        Click="ProductManagementButton_Click">
+
+                <!-- ÜRÜN YÖNETİMİ -->
+                <Button Grid.Row="0"
+            Grid.Column="1"
+            Margin="12"
+            Height="180"
+            Style="{StaticResource MenuTileButton}"
+            Click="ProductManagementButton_Click">
+
                     <StackPanel>
                         <TextBlock Text="📦"
-                                   FontSize="40"
-                                   HorizontalAlignment="Center"
-                                   Margin="0,0,0,12"/>
+                       FontSize="40"
+                       HorizontalAlignment="Center"
+                       Margin="0,0,0,12"/>
+
                         <TextBlock Text="ÜRÜN YÖNETİMİ"
-                                   FontSize="22"
-                                   FontWeight="Bold"
-                                   HorizontalAlignment="Center"/>
+                       FontSize="22"
+                       FontWeight="Bold"
+                       HorizontalAlignment="Center"/>
+
                         <TextBlock Text="Ürün ekleme, düzenleme, stok"
-                                   FontSize="13"
-                                   Foreground="{StaticResource TextSecondaryBrush}"
-                                   HorizontalAlignment="Center"
-                                   Margin="0,6,0,0"/>
+                       FontSize="13"
+                       Foreground="{StaticResource TextSecondaryBrush}"
+                       HorizontalAlignment="Center"
+                       Margin="0,6,0,0"/>
                     </StackPanel>
+
                 </Button>
 
-                <!-- Raporlar -->
-                <Button Margin="12"
-                        Height="160"
-                        Style="{StaticResource MenuTileButton}"
-                        Click="ReportsButton_Click">
+
+                <!-- KATEGORİ YÖNETİMİ -->
+                <Button Grid.Row="1"
+            Grid.Column="0"
+            Margin="12"
+            Height="180"
+            Style="{StaticResource MenuTileButton}"
+            Click="CategoryManagementButton_Click">
+
+                    <StackPanel>
+                        <TextBlock Text="📁"
+                       FontSize="40"
+                       HorizontalAlignment="Center"
+                       Margin="0,0,0,12"/>
+
+                        <TextBlock Text="KATEGORİ YÖNETİMİ"
+                       FontSize="22"
+                       FontWeight="Bold"
+                       HorizontalAlignment="Center"/>
+
+                        <TextBlock Text="Kategori ekleme, düzenleme ve silme"
+                       FontSize="13"
+                       Foreground="{StaticResource TextSecondaryBrush}"
+                       HorizontalAlignment="Center"
+                       Margin="0,6,0,0"/>
+                    </StackPanel>
+
+                </Button>
+
+
+                <!-- RAPORLAR -->
+                <Button Grid.Row="1"
+            Grid.Column="1"
+            Margin="12"
+            Height="180"
+            Style="{StaticResource MenuTileButton}"
+            Click="ReportsButton_Click">
+
                     <StackPanel>
                         <TextBlock Text="📊"
-                                   FontSize="40"
-                                   HorizontalAlignment="Center"
-                                   Margin="0,0,0,12"/>
+                       FontSize="40"
+                       HorizontalAlignment="Center"
+                       Margin="0,0,0,12"/>
+
                         <TextBlock Text="RAPORLAR"
-                                   FontSize="22"
-                                   FontWeight="Bold"
-                                   HorizontalAlignment="Center"/>
+                       FontSize="22"
+                       FontWeight="Bold"
+                       HorizontalAlignment="Center"/>
+
                         <TextBlock Text="Satış ve stok raporları"
-                                   FontSize="13"
-                                   Foreground="{StaticResource TextSecondaryBrush}"
-                                   HorizontalAlignment="Center"
-                                   Margin="0,6,0,0"/>
+                       FontSize="13"
+                       Foreground="{StaticResource TextSecondaryBrush}"
+                       HorizontalAlignment="Center"
+                       Margin="0,6,0,0"/>
                     </StackPanel>
+
                 </Button>
 
-                <!-- Ayarlar -->
-                <Button Margin="12"
-                        Height="160"
-                        Style="{StaticResource MenuTileButton}"
-                        Click="SettingsButton_Click">
+
+                <!-- AYARLAR -->
+                <Button Grid.Row="1"
+            Grid.Column="2"
+            Margin="12"
+            Height="180"
+            Style="{StaticResource MenuTileButton}"
+            Click="SettingsButton_Click">
+
                     <StackPanel>
                         <TextBlock Text="⚙"
-                                   FontSize="40"
-                                   HorizontalAlignment="Center"
-                                   Margin="0,0,0,12"/>
+                       FontSize="40"
+                       HorizontalAlignment="Center"
+                       Margin="0,0,0,12"/>
+
                         <TextBlock Text="AYARLAR"
-                                   FontSize="22"
-                                   FontWeight="Bold"
-                                   HorizontalAlignment="Center"/>
+                       FontSize="22"
+                       FontWeight="Bold"
+                       HorizontalAlignment="Center"/>
+
                         <TextBlock Text="Sistem ve kasa ayarları"
-                                   FontSize="13"
-                                   Foreground="{StaticResource TextSecondaryBrush}"
-                                   HorizontalAlignment="Center"
-                                   Margin="0,6,0,0"/>
+                       FontSize="13"
+                       Foreground="{StaticResource TextSecondaryBrush}"
+                       HorizontalAlignment="Center"
+                       Margin="0,6,0,0"/>
                     </StackPanel>
+
                 </Button>
 
-            </UniformGrid>
+            </Grid>
         </ScrollViewer>
 
         <!-- Footer -->

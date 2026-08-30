@@ -1,0 +1,214 @@
+﻿<Window x:Class="MarketAutomation2.Desktop.Views.SettingsWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Ayarlar"
+        Height="650"
+        Width="850"
+        MinHeight="600"
+        MinWidth="700"
+        WindowStartupLocation="CenterScreen"
+        Background="{StaticResource BackgroundBrush}"
+        FontFamily="{StaticResource AppFont}">
+
+    <Grid Margin="35">
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+
+        <!-- BAŞLIK -->
+
+        <StackPanel Grid.Row="0"
+                    Margin="0,0,0,25">
+
+            <TextBlock Text="⚙ Ayarlar"
+                       FontSize="30"
+                       FontWeight="Bold"
+                       Foreground="{StaticResource TextPrimaryBrush}"/>
+
+            <TextBlock Text="Market ve uygulama ayarlarını yönetin"
+                       FontSize="14"
+                       Foreground="{StaticResource TextSecondaryBrush}"
+                       Margin="0,5,0,0"/>
+
+        </StackPanel>
+
+
+        <!-- AYARLAR -->
+
+        <ScrollViewer Grid.Row="1"
+                      VerticalScrollBarVisibility="Auto">
+
+            <StackPanel>
+
+
+                <!-- MARKET BİLGİLERİ -->
+
+                <Border Style="{StaticResource CardBorder}"
+                        Padding="25"
+                        Margin="0,0,0,20">
+
+                    <StackPanel>
+
+                        <TextBlock Text="🏪 Market Bilgileri"
+                                   FontSize="20"
+                                   FontWeight="Bold"
+                                   Foreground="{StaticResource TextPrimaryBrush}"
+                                   Margin="0,0,0,20"/>
+
+
+                        <!-- MARKET ADI -->
+
+                        <TextBlock Text="Market Adı"
+                                   FontSize="14"
+                                   FontWeight="SemiBold"
+                                   Foreground="{StaticResource TextPrimaryBrush}"
+                                   Margin="0,0,0,5"/>
+
+                        <TextBox Text="{Binding MarketName, UpdateSourceTrigger=PropertyChanged}"
+                                 Height="42"
+                                 FontSize="15"
+                                 Padding="10"
+                                 Margin="0,0,0,18"/>
+
+
+                        <!-- TELEFON -->
+
+                        <TextBlock Text="Telefon"
+                                   FontSize="14"
+                                   FontWeight="SemiBold"
+                                   Foreground="{StaticResource TextPrimaryBrush}"
+                                   Margin="0,0,0,5"/>
+
+                        <TextBox Text="{Binding Phone, UpdateSourceTrigger=PropertyChanged}"
+                                 Height="42"
+                                 FontSize="15"
+                                 Padding="10"
+                                 Margin="0,0,0,18"/>
+
+
+                        <!-- ADRES -->
+
+                        <TextBlock Text="Adres"
+                                   FontSize="14"
+                                   FontWeight="SemiBold"
+                                   Foreground="{StaticResource TextPrimaryBrush}"
+                                   Margin="0,0,0,5"/>
+
+                        <TextBox Text="{Binding Address, UpdateSourceTrigger=PropertyChanged}"
+                                 Height="80"
+                                 FontSize="15"
+                                 Padding="10"
+                                 TextWrapping="Wrap"
+                                 AcceptsReturn="True"
+                                 VerticalScrollBarVisibility="Auto"
+                                 Margin="0,0,0,18"/>
+
+
+                        <!-- KASİYER -->
+
+                        <TextBlock Text="Kasiyer Adı"
+                                   FontSize="14"
+                                   FontWeight="SemiBold"
+                                   Foreground="{StaticResource TextPrimaryBrush}"
+                                   Margin="0,0,0,5"/>
+
+                        <TextBox Text="{Binding CashierName, UpdateSourceTrigger=PropertyChanged}"
+                                 Height="42"
+                                 FontSize="15"
+                                 Padding="10"/>
+
+                    </StackPanel>
+
+                </Border>
+
+
+                <!-- UYGULAMA AYARLARI -->
+
+                <Border Style="{StaticResource CardBorder}"
+                        Padding="25">
+
+                    <StackPanel>
+
+                        <TextBlock Text="🖥 Uygulama Ayarları"
+                                   FontSize="20"
+                                   FontWeight="Bold"
+                                   Foreground="{StaticResource TextPrimaryBrush}"
+                                   Margin="0,0,0,20"/>
+
+
+                        <TextBlock Text="API Adresi"
+                                   FontSize="14"
+                                   FontWeight="SemiBold"
+                                   Foreground="{StaticResource TextPrimaryBrush}"
+                                   Margin="0,0,0,5"/>
+
+                        <TextBox Text="{Binding ApiUrl, UpdateSourceTrigger=PropertyChanged}"
+                                 Height="42"
+                                 FontSize="15"
+                                 Padding="10"/>
+
+
+                        <TextBlock Text="API adresi, masaüstü uygulamasının Web API ile iletişim kurduğu adrestir."
+                                   FontSize="12"
+                                   Foreground="{StaticResource TextSecondaryBrush}"
+                                   Margin="0,8,0,0"/>
+
+                    </StackPanel>
+
+                </Border>
+
+            </StackPanel>
+
+        </ScrollViewer>
+
+
+        <!-- ALT BUTONLAR -->
+
+        <Grid Grid.Row="2"
+              Margin="0,20,0,0">
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+
+
+            <!-- DURUM -->
+
+            <TextBlock Grid.Column="0"
+                       Text="{Binding StatusMessage}"
+                       VerticalAlignment="Center"
+                       FontSize="13"
+                       Foreground="{StaticResource TextSecondaryBrush}"/>
+
+
+            <!-- SIFIRLA -->
+
+            <Button Grid.Column="1"
+                    Content="Varsayılanlara Dön"
+                    Command="{Binding ResetSettingsCommand}"
+                    Style="{StaticResource SecondaryButton}"
+                    Height="45"
+                    Padding="18,0"
+                    Margin="0,0,10,0"/>
+
+
+            <!-- KAYDET -->
+
+            <Button Grid.Column="2"
+                    Content="💾 Ayarları Kaydet"
+                    Command="{Binding SaveSettingsCommand}"
+                    Style="{StaticResource PrimaryButton}"
+                    Height="45"
+                    Padding="20,0"/>
+
+        </Grid>
+
+    </Grid>
+
+</Window>

@@ -1,4 +1,16 @@
 <Solution>
-  <Project Path="MarketAutomation2.API/MarketAutomation2.API.csproj" />
-  <Project Path="MarketAutomation2.Desktop/MarketAutomation2.Desktop.csproj" Id="d44c4c5f-56df-4f2f-b6bb-942e569f4b0c" />
+  <Configurations>
+    <BuildType Name="Debug" />
+    <BuildType Name="DefaultBuild" />
+    <BuildType Name="Release" />
+  </Configurations>
+  <Project Path="MarketAutomation.Launcher/MarketAutomation.Launcher.csproj" Id="d215cf1e-368d-4de8-b6d3-8b046c49e361">
+    <BuildType Solution="DefaultBuild|*" Project="Release" />
+  </Project>
+  <Project Path="MarketAutomation2.API/MarketAutomation2.API.csproj">
+    <BuildType Solution="DefaultBuild|*" Project="Release" />
+  </Project>
+  <Project Path="MarketAutomation2.Desktop/MarketAutomation2.Desktop.csproj" Id="d44c4c5f-56df-4f2f-b6bb-942e569f4b0c">
+    <BuildType Solution="DefaultBuild|*" Project="Release" />
+  </Project>
 </Solution>

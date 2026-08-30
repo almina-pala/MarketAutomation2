@@ -1,4 +1,4 @@
-﻿using MarketAutomation2.API.Models.Entities;
+using MarketAutomation2.API.Models.Entities;
 using Microsoft.EntityFrameworkCore;
 
 namespace MarketAutomation2.API.Data
@@ -24,7 +24,6 @@ namespace MarketAutomation2.API.Data
         {
             base.OnModelCreating(modelBuilder);
 
-            // Decimal alanlar
             modelBuilder.Entity<Product>()
                 .Property(x => x.PurchasePrice)
                 .HasPrecision(18, 2);
@@ -41,26 +40,22 @@ namespace MarketAutomation2.API.Data
                 .Property(x => x.UnitPrice)
                 .HasPrecision(18, 2);
 
-            // Category -> Products
             modelBuilder.Entity<Product>()
                 .HasOne(p => p.Category)
                 .WithMany(c => c.Products)
                 .HasForeignKey(p => p.CategoryId)
                 .OnDelete(DeleteBehavior.Restrict);
 
-            // Sale -> SaleItems
             modelBuilder.Entity<SaleItem>()
                 .HasOne(x => x.Sale)
                 .WithMany(x => x.SaleItems)
                 .HasForeignKey(x => x.SaleId);
 
-            // Product -> SaleItems
             modelBuilder.Entity<SaleItem>()
                 .HasOne(x => x.Product)
                 .WithMany(x => x.SaleItems)
                 .HasForeignKey(x => x.ProductId);
 
-            // Product -> StockMovements
             modelBuilder.Entity<StockMovement>()
                 .HasOne(x => x.Product)
                 .WithMany(x => x.StockMovements)
