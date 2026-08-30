@@ -1,6 +1,0 @@
-@MarketAutomation2.API_HostAddress = http://localhost:5223
-
-GET {{MarketAutomation2.API_HostAddress}}/weatherforecast/
-Accept: application/json
-
-###

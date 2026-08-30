@@ -1,4 +1,5 @@
 ﻿using MarketAutomation2.Desktop.Models;
+using MarketAutomation2.Desktop.Services;
 using System.Net.Http;
 using System.Net.Http.Json;
 
@@ -10,10 +11,8 @@ namespace MarketAutomation2.Desktop.Api
 
         public ProductApiService()
         {
-            _httpClient = new HttpClient
-            {
-                BaseAddress = new Uri("https://localhost:7116/")
-            };
+            var apiClientService = new ApiHttpClientService();
+            _httpClient = apiClientService.Client;
         }
 
         // Tüm ürünleri getir
